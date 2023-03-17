@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { apiNoToken } from "@/config/api";
+import { ToggleThemeButton } from "@/components/ToogleThemeButton";
 
 export default function Home() {
   const [tabs, setTabs] = useState([]);
@@ -30,6 +30,7 @@ export default function Home() {
       </Head>
       <main>
         <h1> Testando</h1>
+        <ToggleThemeButton />
         <Image
           src="/images/perfil.jpg"
           alt="Vercel Logo"
@@ -39,7 +40,10 @@ export default function Home() {
         />
         {tabs?.map((e) => {
           return (
-            <div key={e._id} className="bg-slate-400 mx-3 my-3 w-96 rounded-md">
+            <div
+              key={e._id}
+              className="bg-slate-400 dark:bg-slate-100 mx-3 my-3 w-96 rounded-md"
+            >
               {" "}
               {e.title}
             </div>
