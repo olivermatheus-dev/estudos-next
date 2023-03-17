@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
+import { apiNoToken } from "@/config/api";
 
 export default function Home() {
   const [tabs, setTabs] = useState([]);
@@ -10,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchTabs() {
       try {
-        const res = await axios.get("http://localhost:4000/tab/all-tabs");
+        const res = await apiNoToken.get("/tab/all-tabs");
         setTabs(res.data);
       } catch (e) {
         console.log(e);
@@ -19,7 +20,6 @@ export default function Home() {
     fetchTabs();
   }, []);
 
-  console.log(tabs);
   return (
     <>
       <Head>
@@ -37,9 +37,13 @@ export default function Home() {
           height={100}
           priority
         />
-        <Link href="/blog/1"> Post</Link>
         {tabs?.map((e) => {
-          return <div key={e._id}> {e.title}</div>;
+          return (
+            <div key={e._id} className="bg-slate-400 mx-3 my-3 w-96 rounded-md">
+              {" "}
+              {e.title}
+            </div>
+          );
         })}
       </main>
     </>
