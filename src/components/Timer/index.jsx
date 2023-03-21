@@ -6,7 +6,7 @@ export default function Timer({ resetTimer, timeSelected }) {
   const [hour, setHour] = useState(timeSelected.hourSelected);
   const [min, setMin] = useState(timeSelected.minSelected);
   const [second, setSecond] = useState(0);
-  const [currentCycle, setCurrentCycle] = useState(0);
+  const [cyclesCompleted, setCyclesCompleted] = useState(0);
   const [totalCycles, setTotalCycles] = useState(timeSelected.cycleSelected);
   const [hourFormated, setHourFormated] = useState();
   const [isPaused, setIsPaused] = useState(false);
@@ -21,7 +21,13 @@ export default function Timer({ resetTimer, timeSelected }) {
   useEffect(() => {
     if (hour === 0 && min === 0 && second === 0) {
       console.log("Terminei");
-      setCurrentCycle(currentCycle + 1);
+      setCyclesCompleted(cyclesCompleted + 1);
+      if (cyclesCompleted < totalCycles - 1) {
+        setHour(timeSelected.hourSelected);
+        setMin(timeSelected.minSelected);
+        setSecond(0);
+        setIsPaused(true);
+      }
     }
     const interval = setInterval(() => {
       if (!isPaused) {
@@ -68,9 +74,13 @@ export default function Timer({ resetTimer, timeSelected }) {
   const handleContinue = () => {
     setIsPaused(false);
   };
+
   return (
     <div className="flex flex-col items-center justify-center gap-6">
-      <CycleIndicator currentCycle={currentCycle} totalCycles={totalCycles} />
+      <CycleIndicator
+        cyclesCompleted={cyclesCompleted}
+        totalCycles={totalCycles}
+      />
       <h1
         className={`z-10 font-thin text-9xl text-zinc-200 ${
           isPaused && "animate-pulse"
