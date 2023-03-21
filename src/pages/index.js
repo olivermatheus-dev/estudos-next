@@ -10,6 +10,7 @@ export default function Home() {
   const [minSelect, setMinSelect] = useState(0);
   const [selectorVisibility, setSelectorVisibility] = useState(true);
   const [timeSelected, setTimeSelected] = useState(null);
+  const [cycleSelected, setCycleSelected] = useState(1);
   const backgroundStyle = {
     position: "absolute",
     top: 0,
@@ -17,6 +18,7 @@ export default function Home() {
     width: "100%",
     height: "100%",
     zIndex: -10,
+    objectFit: "cover",
   };
 
   const handleSetTimer = (e) => {
@@ -44,7 +46,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Image
-        src={gif}
+        src={backgroundImage}
         alt="Imagem de fundo"
         quality={100}
         style={backgroundStyle}
@@ -94,6 +96,25 @@ export default function Home() {
                     onChange={(e) => {
                       e.preventDefault();
                       setMinSelect(e.target.value);
+                    }}
+                    className="bg-transparent text-zinc-200 text-2xl w-16"
+                  />
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <label
+                    name="minutes"
+                    className="z-10 font-thin text-5xl text-zinc-200"
+                  >
+                    Cycles
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="minutes"
+                    name="hour"
+                    value={cycleSelected}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCycleSelected(e.target.value);
                     }}
                     className="bg-transparent text-zinc-200 text-2xl w-16"
                   />

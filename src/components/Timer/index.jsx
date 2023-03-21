@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ProgressBar from "./components/ProgressBar";
 
 export default function Timer({ resetTimer, timeSelected }) {
   const [hour, setHour] = useState(timeSelected.hourSelected);
@@ -6,7 +7,7 @@ export default function Timer({ resetTimer, timeSelected }) {
   const [second, setSecond] = useState(0);
   const [hourFormated, setHourFormated] = useState();
   const [isPaused, setIsPaused] = useState(false);
-  const [pauseStartTime, setPauseStartTime] = useState();
+  // const [pauseStartTime, setPauseStartTime] = useState();
   const [pauseTime, setPauseTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -20,10 +21,12 @@ export default function Timer({ resetTimer, timeSelected }) {
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000);
         if (second > 0) {
           setSecond(second - 1);
-        } else if (min > 0) {
+        }
+        if (min > 0) {
           setMin(min - 1);
           setSecond(59);
-        } else if (hour > 0) {
+        }
+        if (hour > 0) {
           setHour(hour - 1);
           setMin(59);
           setSecond(59);
@@ -53,14 +56,14 @@ export default function Timer({ resetTimer, timeSelected }) {
 
   const handlePause = () => {
     setIsPaused(true);
-    setPauseStartTime(new Date());
+    // setPauseStartTime(new Date());
   };
 
   const handleContinue = () => {
     setIsPaused(false);
-    const pauseEndTime = new Date();
-    const pauseDuration = pauseEndTime - pauseStartTime;
-    setPauseTime(pauseTime + pauseDuration);
+    // const pauseEndTime = new Date();
+    // const pauseDuration = pauseEndTime - pauseStartTime;
+    // setPauseTime(pauseTime + pauseDuration);
   };
   return (
     <div className="flex flex-col items-center justify-center gap-6">
@@ -71,13 +74,8 @@ export default function Timer({ resetTimer, timeSelected }) {
       >
         {hourFormated}
       </h1>
-      <div className="relative h-2 rounded-full w-96 overflow-hidden border">
-        <div className="absolute top-0 left-0 h-full bg-yellow-600  w-full" />
-        <div
-          className="absolute top-0 left-0 h-full bg-white"
-          style={{ width: `${100 - progress}%` }}
-        />
-      </div>
+      <ProgressBar progress={progress} />
+
       <div className="flex gap-5">
         {!isPaused ? (
           <button
