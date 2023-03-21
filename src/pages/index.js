@@ -8,9 +8,9 @@ import Timer from "@/components/Timer";
 export default function Home() {
   const [hourSelected, setHourSelect] = useState(0);
   const [minSelect, setMinSelect] = useState(0);
+  const [cycleSelected, setCycleSelected] = useState(1);
   const [selectorVisibility, setSelectorVisibility] = useState(true);
   const [timeSelected, setTimeSelected] = useState(null);
-  const [cycleSelected, setCycleSelected] = useState(1);
   const backgroundStyle = {
     position: "absolute",
     top: 0,
@@ -27,6 +27,7 @@ export default function Home() {
     const timer = {
       hourSelected: Number(hourSelected),
       minSelected: Number(minSelect),
+      cycleSelected: Number(cycleSelected),
     };
     setTimeSelected(timer);
   };

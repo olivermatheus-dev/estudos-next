@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import ProgressBar from "./components/ProgressBar";
+import CycleIndicator from "./components/CycleIndicator";
 
 export default function Timer({ resetTimer, timeSelected }) {
   const [hour, setHour] = useState(timeSelected.hourSelected);
   const [min, setMin] = useState(timeSelected.minSelected);
   const [second, setSecond] = useState(0);
+  const [currentCycle, setCurrentCycle] = useState(0);
+  const [totalCycles, setTotalCycles] = useState(timeSelected.cycleSelected);
   const [hourFormated, setHourFormated] = useState();
   const [isPaused, setIsPaused] = useState(false);
-  // const [pauseStartTime, setPauseStartTime] = useState();
+
   const [pauseTime, setPauseTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
 
@@ -16,6 +19,10 @@ export default function Timer({ resetTimer, timeSelected }) {
   const progress = Math.floor((elapsedTime / totalTime) * 100);
 
   useEffect(() => {
+    if (hour === 0 && min === 0 && second === 0) {
+      console.log("Terminei");
+      setCurrentCycle(currentCycle + 1);
+    }
     const interval = setInterval(() => {
       if (!isPaused) {
         setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000);
@@ -56,17 +63,14 @@ export default function Timer({ resetTimer, timeSelected }) {
 
   const handlePause = () => {
     setIsPaused(true);
-    // setPauseStartTime(new Date());
   };
 
   const handleContinue = () => {
     setIsPaused(false);
-    // const pauseEndTime = new Date();
-    // const pauseDuration = pauseEndTime - pauseStartTime;
-    // setPauseTime(pauseTime + pauseDuration);
   };
   return (
     <div className="flex flex-col items-center justify-center gap-6">
+      <CycleIndicator currentCycle={currentCycle} totalCycles={totalCycles} />
       <h1
         className={`z-10 font-thin text-9xl text-zinc-200 ${
           isPaused && "animate-pulse"
@@ -75,7 +79,6 @@ export default function Timer({ resetTimer, timeSelected }) {
         {hourFormated}
       </h1>
       <ProgressBar progress={progress} />
-
       <div className="flex gap-5">
         {!isPaused ? (
           <button
