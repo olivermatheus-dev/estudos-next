@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import backgroundImage from "../../public/images/bgGreen.jpg";
-import gif from "../../public/images/gif.gif";
+
 import { useState } from "react";
 import Timer from "@/components/Timer";
-import Whoosh from "../../public/sounds/woosh.wav";
+// import Whoosh from "../../public/sounds/woosh.wav";
 
 export default function Home() {
   const [hourSelected, setHourSelect] = useState(0);
@@ -22,12 +22,12 @@ export default function Home() {
     objectFit: "cover",
   };
 
-  const soundEffect = () => {
-    const audio = new Audio(Whoosh);
-    audio.volume = 0.3;
-    audio.play();
-    console.log(audio);
-  };
+  // const soundEffect = () => {
+  //   const audio = new Audio(Whoosh);
+  //   audio.volume = 0.3;
+  //   audio.play();
+  //   console.log(audio);
+  // };
 
   const handleSetTimer = (e) => {
     e.preventDefault();
@@ -132,7 +132,7 @@ export default function Home() {
               <button
                 type="submit"
                 className="bg-stone-600 text-zinc-200 rounded-md px-6 py-2"
-                onClick={soundEffect}
+                // onClick={soundEffect}
               >
                 Start
               </button>
@@ -140,9 +140,9 @@ export default function Home() {
           </>
         )}
         {!selectorVisibility && (
-          <>
+          <div className="w-full h-full flex flex-col items-center justify-center gap-6">
             <Timer resetTimer={resetTimer} timeSelected={timeSelected} />
-          </>
+          </div>
         )}
       </main>
     </>

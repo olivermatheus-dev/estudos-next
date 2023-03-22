@@ -10,17 +10,14 @@ export default function Timer({ resetTimer, timeSelected }) {
   const [totalCycles, setTotalCycles] = useState(timeSelected.cycleSelected);
   const [hourFormated, setHourFormated] = useState();
   const [isPaused, setIsPaused] = useState(false);
+  const totalTime =
+    (timeSelected.hourSelected * 3600 + timeSelected.minSelected * 60) * 1000;
 
-  const [pauseTime, setPauseTime] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(0);
-
-  const totalTime = (hour * 3600 + min * 60 + second) * 1000;
-  const remainingTime = (hour * 3600 + min * 60 + second - pauseTime) * 1000;
-  const progress = Math.floor((elapsedTime / totalTime) * 100);
+  const remainingTime = (hour * 3600 + min * 60 + second) * 1000;
+  const progress = Math.floor((1 - remainingTime / totalTime) * 100);
 
   useEffect(() => {
     if (hour === 0 && min === 0 && second === 0) {
-      console.log("Terminei");
       setCyclesCompleted(cyclesCompleted + 1);
       if (cyclesCompleted < totalCycles - 1) {
         setHour(timeSelected.hourSelected);
@@ -31,7 +28,6 @@ export default function Timer({ resetTimer, timeSelected }) {
     }
     const interval = setInterval(() => {
       if (!isPaused) {
-        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1000);
         if (second > 0) {
           setSecond(second - 1);
         }
@@ -76,7 +72,7 @@ export default function Timer({ resetTimer, timeSelected }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6">
+    <div className="flex flex-col items-center justify-center gap-6 bg-black/20  w-5/12 h-3/6 rounded-xl ">
       <CycleIndicator
         cyclesCompleted={cyclesCompleted}
         totalCycles={totalCycles}
